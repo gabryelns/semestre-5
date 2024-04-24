@@ -8,23 +8,23 @@ struct Vetor
     float dado;
 };
 
-// Protótipo da função trocar
-void trocar(struct Vetor *a, struct Vetor *b);
+// Protótipo da função swap
+void swap(struct Vetor *a, struct Vetor *b);
 
 // Função para encontrar a mediana de três elementos
 int mediana_de_tres(struct Vetor *v, int low, int high) {
     int mid = (low + high) / 2;
     if (v[low].dado > v[mid].dado)
-        trocar(&v[low], &v[mid]);
+        swap(&v[low], &v[mid]);
     if (v[mid].dado > v[high].dado)
-        trocar(&v[mid], &v[high]);
+        swap(&v[mid], &v[high]);
     if (v[low].dado > v[mid].dado)
-        trocar(&v[low], &v[mid]);
+        swap(&v[low], &v[mid]);
     return mid;
 }
 
-// Função para trocar dois elementos
-void trocar(struct Vetor *a, struct Vetor *b) {
+// Função para swap dois elementos
+void swap(struct Vetor *a, struct Vetor *b) {
     struct Vetor temp = *a;
     *a = *b;
     *b = temp;
@@ -33,17 +33,17 @@ void trocar(struct Vetor *a, struct Vetor *b) {
 // Função de particionamento para quicksort
 int particionar(struct Vetor *v, int low, int high) {
     int mid = mediana_de_tres(v, low, high);
-    trocar(&v[mid], &v[high]); // Move o pivô para o final
+    swap(&v[mid], &v[high]); // Move o pivô para o final
     float pivot = v[high].dado;
     int i = low - 1;
     
     for (int j = low; j < high; j++) {
         if (v[j].dado > pivot || (v[j].dado == pivot && (v[j].line < v[high].line || (v[j].line == v[high].line && v[j].col < v[high].col)))) {
             i++;
-            trocar(&v[i], &v[j]);
+            swap(&v[i], &v[j]);
         }
     }
-    trocar(&v[i + 1], &v[high]);
+    swap(&v[i + 1], &v[high]);
     return i + 1;
 }
 
