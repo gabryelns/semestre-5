@@ -8,11 +8,10 @@ struct Vetor
     float dado;
 };
 
-// Protótipo da função swap
 void swap(struct Vetor *a, struct Vetor *b);
 
-// Função para encontrar a mediana de três elementos
-int mediana_de_tres(struct Vetor *v, int low, int high) {
+int mediana_de_tres(struct Vetor *v, int low, int high)
+{
     int mid = (low + high) / 2;
     if (v[low].dado > v[mid].dado)
         swap(&v[low], &v[mid]);
@@ -23,22 +22,24 @@ int mediana_de_tres(struct Vetor *v, int low, int high) {
     return mid;
 }
 
-// Função para swap dois elementos
-void swap(struct Vetor *a, struct Vetor *b) {
+void swap(struct Vetor *a, struct Vetor *b)
+{
     struct Vetor temp = *a;
     *a = *b;
     *b = temp;
 }
 
-// Função de particionamento para quicksort
-int particionar(struct Vetor *v, int low, int high) {
+int particionar(struct Vetor *v, int low, int high)
+{
     int mid = mediana_de_tres(v, low, high);
-    swap(&v[mid], &v[high]); // Move o pivô para o final
+    swap(&v[mid], &v[high]);
     float pivot = v[high].dado;
     int i = low - 1;
-    
-    for (int j = low; j < high; j++) {
-        if (v[j].dado > pivot || (v[j].dado == pivot && (v[j].line < v[high].line || (v[j].line == v[high].line && v[j].col < v[high].col)))) {
+
+    for (int j = low; j < high; j++)
+    {
+        if (v[j].dado > pivot || (v[j].dado == pivot && (v[j].line < v[high].line || (v[j].line == v[high].line && v[j].col < v[high].col))))
+        {
             i++;
             swap(&v[i], &v[j]);
         }
@@ -47,9 +48,10 @@ int particionar(struct Vetor *v, int low, int high) {
     return i + 1;
 }
 
-// Função quicksort
-void quicksort(struct Vetor *v, int low, int high) {
-    if (low < high) {
+void quicksort(struct Vetor *v, int low, int high)
+{
+    if (low < high)
+    {
         int pi = particionar(v, low, high);
         quicksort(v, low, pi - 1);
         quicksort(v, pi + 1, high);
@@ -96,7 +98,7 @@ int main()
             if (i > 0)
                 printf(" ");
 
-            printf("%d,%d", vetor[i].line, vetor[i].col, vetor[i].dado);
+            printf("%d,%d", vetor[i].line, vetor[i].col);
         }
 
         printf("\n");

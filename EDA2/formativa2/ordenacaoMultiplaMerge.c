@@ -103,7 +103,7 @@ int main()
             if (i > 0)
                 printf(" ");
 
-            printf("%d,%d", vetor[i].line, vetor[i].col, vetor[i].dado);
+            printf("%d,%d", vetor[i].line, vetor[i].col);
         }
 
         printf("\n");
