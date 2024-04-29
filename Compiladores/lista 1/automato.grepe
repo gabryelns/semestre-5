@@ -1,1 +1,1 @@
-^(r(rr|b)*r|rb)(c|br(rr|b)*cc|br)$
+^(((((r)((rr)|b)*(rb))|b)(((c|(br))(b|(rr))*(rb))|(bb))*((c|(br))((rr)|b)*)?)|(r((rr)|b)*))$
