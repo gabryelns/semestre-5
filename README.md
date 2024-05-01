@@ -1,1 +1,1 @@
-# Repositorio destinado as Atividades do 5° Semestre
+# Repositorio destinado as Atividades do 5° Semestre de Eng, de Software - UnB
