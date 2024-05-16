@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef struct
 {
     int index;
@@ -33,9 +34,10 @@ int main()
         {
             printf("%d", i);
 
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < c; j++)
             {
-                if(vetor[j].index == i){
+                if (vetor[j].index == i)
+                {
                     printf(" -> %d", vetor[j].chave);
                 }
             }
