@@ -2,71 +2,70 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX 2097152 // 2^21
+#define MAX (1 << 20) // 2^20
 
-struct Colonia
+typedef struct
 {
-    int id;
-    char alimento[11];
-    struct Colonia *prox;
-};
+    int colonia;
+    char alimento[15];
+    int entregue;
+} item;
 
-struct HashTable
-{
-    struct Colonia *lista[MAX];
-};
+item hasht[MAX];
 
-int hash(char *alimento)
+unsigned long hash(int colonia, char *alimento)
 {
-    int hash = 0;
-    while (*alimento)
-        hash += *alimento++;
+    unsigned long hash = colonia;
+    int c;
+
+    while ((c = *alimento++))
+        hash = ((hash << 5) + hash) + c;
+
     return hash % MAX;
 }
 
-void inicia(struct HashTable *ht)
+void insere(int colonia, char *alimento)
 {
-    for (int i = 0; i < MAX; i++)
-        ht->lista[i] = NULL;
-}
+    unsigned long index = hash(colonia, alimento);
+    while (hasht[index].entregue && !(hasht[index].colonia == colonia && strcmp(hasht[index].alimento, alimento) == 0))
+        index = (index + 1) % MAX;
 
-void inserir(struct HashTable *ht, int id, char *alimento)
-{
-    int h = hash(alimento);
-    struct Colonia *nova_colonia = (struct Colonia *)malloc(sizeof(struct Colonia));
-    nova_colonia->id = id;
-    strcpy(nova_colonia->alimento, alimento);
-    nova_colonia->prox = ht->lista[h];
-    ht->lista[h] = nova_colonia;
-}
-
-int buscar(struct HashTable *ht, char *alimento)
-{
-    int h = hash(alimento);
-    struct Colonia *temp = ht->lista[h];
-    while (temp != NULL)
+    if (!hasht[index].entregue)
     {
-        if (strcmp(temp->alimento, alimento) == 0)
-            return temp->id;
-        temp = temp->prox;
+        hasht[index].colonia = colonia;
+        strcpy(hasht[index].alimento, alimento);
+        hasht[index].entregue = 1;
     }
-    return -1;
+}
+
+int verifica(int colonia, char *alimento)
+{
+    unsigned long index = hash(colonia, alimento);
+    while (hasht[index].entregue)
+    {
+        if (hasht[index].colonia == colonia && strcmp(hasht[index].alimento, alimento) == 0)
+            return 1;
+        index = (index + 1) % MAX;
+    }
+    return 0;
 }
 
 int main()
 {
-    struct HashTable ht;
-    inicia(&ht);
     int colonia;
-    char alimento[11];
+    char alimento[15];
 
     while (scanf("%d %s", &colonia, alimento) != EOF)
     {
-        int id = buscar(&ht, alimento);
-        if (id != -1)
-            printf("%d\n", id);
+        if (verifica(colonia, alimento))
+        {
+            printf("%d\n", colonia);
+        }
         else
-            inserir(&ht, colonia, alimento);
+        {
+            insere(colonia, alimento);
+        }
     }
+
     return 0;
 }
