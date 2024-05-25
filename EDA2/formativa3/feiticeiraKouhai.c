@@ -3,48 +3,42 @@
 
 typedef struct No
 {
-    int id;
-    int chave;
+    long long int id;
+    long long int chave;
     struct No *prox;
 } No;
 
-void insere(No **tabela_hash, int id, int chave)
+void insere(No **tabela_hash, long long int id, long long int chave)
 {
     No *novo_no = (No *)malloc(sizeof(No));
     novo_no->chave = chave;
     novo_no->prox = NULL;
 
-    // Se a lista estiver vazia, insere o novo nó diretamente
     if (tabela_hash[id] == NULL)
         tabela_hash[id] = novo_no;
     else
     {
-        // Caso contrário, percorre a lista até encontrar o último nó
         No *atual = tabela_hash[id];
         while (atual->prox != NULL)
             atual = atual->prox;
-        // Insere o novo nó após o último nó existente
         atual->prox = novo_no;
     }
     tabela_hash[id]->chave += chave;
 }
 
-void retira(No **tabela_hash, int id, int chave)
+void retira(No **tabela_hash, long long int id, long long int chave)
 {
     No *novo_no = (No *)malloc(sizeof(No));
     novo_no->chave = chave;
     novo_no->prox = NULL;
 
-    // Se a lista estiver vazia, insere o novo nó diretamente
     if (tabela_hash[id] == NULL)
         tabela_hash[id] = novo_no;
     else
     {
-        // Caso contrário, percorre a lista até encontrar o último nó
         No *atual = tabela_hash[id];
         while (atual->prox != NULL)
             atual = atual->prox;
-        // Insere o novo nó após o último nó existente
         atual->prox = novo_no;
     }
 
@@ -70,16 +64,16 @@ void liberahash(No **tabela_hash, int m)
 
 int main()
 {
-    int n, somatotal = 0, idaux, chaveaux;
-
-    scanf("%d", &n);
+    long long int n, idaux, chaveaux;
+    long long int  somatotal = 0;
+    scanf("%lld", &n);
 
     No **vetor = (No **)calloc(n, sizeof(No **));
     int vetid[n];
 
     for (int i = 0; i < n; i++)
     {
-        scanf("%d %d", &idaux, &chaveaux);
+        scanf("%lld %lld", &idaux, &chaveaux);
         vetid[i] = idaux;
         if (chaveaux < 0)
             retira(vetor, idaux, chaveaux);
@@ -88,7 +82,7 @@ int main()
     }
     liberahash(vetor, n);
     free(vetor);
-    printf("%d", somatotal);
+    printf("%lld", somatotal);
 
     return 0;
 }
