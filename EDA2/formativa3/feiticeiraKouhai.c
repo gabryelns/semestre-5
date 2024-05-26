@@ -1,88 +1,105 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct No
-{
-    long long int id;
-    long long int chave;
-    struct No *prox;
-} No;
+#define MAX (524287)
 
-void insere(No **tabela_hash, long long int id, long long int chave)
+typedef struct Item
 {
-    No *novo_no = (No *)malloc(sizeof(No));
-    novo_no->chave = chave;
-    novo_no->prox = NULL;
+    long long id;
+    long long qtd;
+    struct Item *prox;
+} Item;
 
-    if (tabela_hash[id] == NULL)
-        tabela_hash[id] = novo_no;
-    else
-    {
-        No *atual = tabela_hash[id];
-        while (atual->prox != NULL)
-            atual = atual->prox;
-        atual->prox = novo_no;
-    }
-    tabela_hash[id]->chave += chave;
+Item *tabela_hash[MAX] = {NULL};
+
+long funcaohash(long long id)
+{
+    return (id % MAX);
 }
 
-void retira(No **tabela_hash, long long int id, long long int chave)
+Item *encontrar_item(long long id)
 {
-    No *novo_no = (No *)malloc(sizeof(No));
-    novo_no->chave = chave;
-    novo_no->prox = NULL;
-
-    if (tabela_hash[id] == NULL)
-        tabela_hash[id] = novo_no;
-    else
+    unsigned long indice = funcaohash(id);
+    Item *atual = tabela_hash[indice];
+    while (atual != NULL)
     {
-        No *atual = tabela_hash[id];
-        while (atual->prox != NULL)
-            atual = atual->prox;
-        atual->prox = novo_no;
+        if (atual->id == id)
+            return atual;
+        atual = atual->prox;
     }
-
-    tabela_hash[id]->chave += chave;
-
-    if (tabela_hash[id]->chave < 0)
-        tabela_hash[id]->chave = 0;
+    return NULL;
 }
 
-void liberahash(No **tabela_hash, int m)
+void insere(long long id, long long qtd)
 {
-    for (int i = 0; i < m; i++)
+    unsigned long indice = funcaohash(id);
+    Item *item_existente = encontrar_item(id);
+
+    if (item_existente != NULL)
     {
-        No *no = tabela_hash[i];
-        while (no != NULL)
+        item_existente->qtd += qtd;
+        if (item_existente->qtd < 0)
         {
-            No *temp = no;
-            no = no->prox;
+            item_existente->qtd = 0;
+        }
+    }
+    else
+    {
+        if (qtd > 0)
+        {
+            Item *novo_item = (Item *)malloc(sizeof(Item));
+            novo_item->id = id;
+            novo_item->qtd = qtd;
+            novo_item->prox = tabela_hash[indice];
+            tabela_hash[indice] = novo_item;
+        }
+    }
+}
+
+void liberahash()
+{
+    for (int i = 0; i < MAX; i++)
+    {
+        Item *atual = tabela_hash[i];
+        while (atual != NULL)
+        {
+            Item *temp = atual;
+            atual = atual->prox;
             free(temp);
         }
+        tabela_hash[i] = NULL;
     }
 }
 
 int main()
 {
-    long long int n, idaux, chaveaux;
-    long long int  somatotal = 0;
-    scanf("%lld", &n);
+    int n;
+    scanf("%d", &n);
 
-    No **vetor = (No **)calloc(n, sizeof(No **));
-    int vetid[n];
-
+    long long id, qtd;
     for (int i = 0; i < n; i++)
     {
-        scanf("%lld %lld", &idaux, &chaveaux);
-        vetid[i] = idaux;
-        if (chaveaux < 0)
-            retira(vetor, idaux, chaveaux);
-        else
-            insere(vetor, idaux, chaveaux);
+        scanf("%lld %lld", &id, &qtd);
+        id += 536870912;
+        if (qtd != 0)
+            insere(id, qtd);
     }
-    liberahash(vetor, n);
-    free(vetor);
-    printf("%lld", somatotal);
+
+    long long qtd_total = 0;
+
+    for (int i = 0; i < MAX; i++)
+    {
+        Item *atual = tabela_hash[i];
+        while (atual != NULL)
+        {
+            qtd_total += atual->qtd;
+            atual = atual->prox;
+        }
+    }
+
+    printf("%lld\n", qtd_total);
+
+    liberahash();
 
     return 0;
 }
