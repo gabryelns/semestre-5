@@ -2,10 +2,10 @@
 
 ## 📖 Disciplinas
 
-- [Estrutura de Dados 2 - EDA 2](#)
-- [Compiladores](#s)
-- [Fundamentos de Sistemas Operacionais](#)
-- [Sistema de Banco de Dados 1](#)
+- [Estrutura de Dados 2 - EDA 2](EDA2)
+- [Compiladores](Compiladores)
+- [Fundamentos de Sistemas Operacionais](FSO)
+- [Sistema de Banco de Dados 1](SBD1)
 
 ## 💻 Linguagens Utilizadas
 
@@ -13,5 +13,4 @@
 
 - Pascal
 ---
-
 Aproveite o repositorio e fique à vontade para dar uma olhada. Obrigado! 🎉😄
