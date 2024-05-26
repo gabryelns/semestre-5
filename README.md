@@ -5,7 +5,7 @@
 - [Estrutura de Dados 2 - EDA 2](EDA2) - Prof. John Lennon
 - [Compiladores](Compiladores) - Prof. Bruno Ribas
 - [Fundamentos de Sistemas Operacionais](FSO) - Prof. Daniel Sundfeld
-- [Sistema de Banco de Dados 1](SBD1) -  - Prof. Vandor
+- [Sistema de Banco de Dados 1](SBD1) - Prof. Vandor
 
 ## 💻 Linguagens Utilizadas
 
