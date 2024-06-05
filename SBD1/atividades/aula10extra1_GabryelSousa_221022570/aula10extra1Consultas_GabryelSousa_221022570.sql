@@ -21,19 +21,20 @@ USE aula10extra1;
 SELECT sigla, nome
   FROM ESTADO
  WHERE sigla = 'SP'
-   OR sigla = 'DF';
+    OR sigla = 'DF';
 
 -- B)
 	  SELECT CIDADE.nome, CIDADE.sigla
       FROM CIDADE
-INNER JOIN ESTADO ON CIDADE.sigla = ESTADO.sigla
+INNER JOIN ESTADO 
+        ON CIDADE.sigla = ESTADO.sigla
      WHERE CIDADE.sigla = 'RJ'
-       OR CIDADE.sigla = 'DF'
-       OR CIDADE.sigla = 'GO';
+        OR CIDADE.sigla = 'DF'
+        OR CIDADE.sigla = 'GO';
 
 -- C)
 SELECT CIDADE.nome, ESTADO.nome AS nome_estado, CIDADE.sigla
-FROM ESTADO
+      FROM ESTADO
 INNER JOIN CIDADE ON CIDADE.sigla = ESTADO.sigla
 WHERE CIDADE.sigla = (SELECT MIN(sigla) FROM ESTADO);
 
